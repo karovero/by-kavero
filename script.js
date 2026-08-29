@@ -72,20 +72,7 @@ workCards.forEach((card) => {
         card.querySelector("video");
 
 
-    card.addEventListener("mouseenter", () => {
-
-        video.play().catch(() => {});
-
-    });
-
-
-    card.addEventListener("mouseleave", () => {
-
-        video.pause();
-
-        video.currentTime = 0;
-
-    });
+    
     
 const videos = document.querySelectorAll(".work-card video");
 
@@ -130,5 +117,20 @@ if (menuToggle && navLinks) {
         });
 
     });
+   const videoObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+        const video = entry.target;
+
+        if (entry.isIntersecting) {
+            video.play().catch(() => {});
+        } else {
+            video.pause();
+        }
+    });
+}, { threshold: 0.4 });
+
+document.querySelectorAll(".work-card video").forEach((video) => {
+    videoObserver.observe(video);
+});
 
 }
