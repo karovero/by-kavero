@@ -2,377 +2,259 @@
    BY KAVERO — JAVASCRIPT
 ========================================================== */
 
-document.addEventListener("DOMContentLoaded", () => {
+
+/* ==========================================================
+   NAVBAR
+========================================================== */
+
+const navbar = document.getElementById("navbar");
+
+if (navbar) {
+
+    const updateNavbar = () => {
+
+        if (window.scrollY > 30) {
+            navbar.classList.add("scrolled");
+        } else {
+            navbar.classList.remove("scrolled");
+        }
+
+    };
+
+    window.addEventListener("scroll", updateNavbar);
+
+    updateNavbar();
+}
 
 
-    /* =========================
-       NAVBAR
-    ========================== */
+/* ==========================================================
+   SCROLL REVEAL
+========================================================== */
 
-    const navbar = document.getElementById("navbar");
+const revealElements = document.querySelectorAll(".reveal");
 
-    if (navbar) {
+if ("IntersectionObserver" in window) {
 
-        const updateNavbar = () => {
+    revealElements.forEach((element) => {
+        element.classList.add("animate");
+    });
 
-            if (window.scrollY > 30) {
-                navbar.classList.add("scrolled");
-            } else {
-                navbar.classList.remove("scrolled");
-            }
+    const revealObserver = new IntersectionObserver(
 
-        };
+        (entries) => {
 
-        updateNavbar();
+            entries.forEach((entry) => {
 
-        window.addEventListener(
-            "scroll",
-            updateNavbar,
-            { passive: true }
-        );
+                if (entry.isIntersecting) {
 
-    }
+                    entry.target.classList.add("visible");
 
+                    revealObserver.unobserve(entry.target);
 
-    /* =========================
-       MOBILE MENU
-    ========================== */
-
-    const menuToggle =
-        document.querySelector(".menu-toggle");
-
-    const navLinks =
-        document.querySelector(".nav-links");
-
-
-    if (menuToggle && navLinks) {
-
-        menuToggle.addEventListener("click", () => {
-
-            const isOpen =
-                navLinks.classList.toggle("active");
-
-            menuToggle.setAttribute(
-                "aria-expanded",
-                String(isOpen)
-            );
-
-            menuToggle.setAttribute(
-                "aria-label",
-                isOpen
-                    ? "Cerrar menú"
-                    : "Abrir menú"
-            );
-
-        });
-
-
-        navLinks
-            .querySelectorAll("a")
-            .forEach((link) => {
-
-                link.addEventListener("click", () => {
-
-                    navLinks.classList.remove("active");
-
-                    menuToggle.setAttribute(
-                        "aria-expanded",
-                        "false"
-                    );
-
-                    menuToggle.setAttribute(
-                        "aria-label",
-                        "Abrir menú"
-                    );
-
-                });
+                }
 
             });
 
-    }
+        },
+
+        {
+            threshold: 0.08
+        }
+
+    );
+
+    revealElements.forEach((element) => {
+        revealObserver.observe(element);
+    });
+
+} else {
+
+    revealElements.forEach((element) => {
+        element.classList.add("visible");
+    });
+
+}
 
 
-    /* =========================
-       SCROLL REVEAL
-    ========================== */
+/* ==========================================================
+   PORTFOLIO VIDEOS
+========================================================== */
 
-    const revealElements =
-        document.querySelectorAll(".reveal");
+/*
+   REGLAS:
 
-
-    /*
-       Primero comprobamos que JavaScript
-       está funcionando.
-
-       Esto evita que toda la página desaparezca
-       si el JS falla o tarda en cargar.
-    */
-
-    document.body.classList.add("js-ready");
+   1. Los videos NO se reproducen con hover.
+   2. Los videos NO se reproducen automáticamente.
+   3. Solo se reproducen mediante el botón inferior.
+   4. Solo puede haber un video reproduciéndose.
+   5. Al reproducir otro video, el anterior se pausa.
+   6. El botón cambia entre "Ver video" y "Pausar".
+*/
 
 
-    if (
-        "IntersectionObserver" in window &&
-        revealElements.length
-    ) {
-
-        const revealObserver =
-            new IntersectionObserver(
-
-                (entries, observer) => {
-
-                    entries.forEach((entry) => {
-
-                        if (entry.isIntersecting) {
-
-                            entry.target.classList.add(
-                                "visible"
-                            );
-
-                            observer.unobserve(
-                                entry.target
-                            );
-
-                        }
-
-                    });
-
-                },
-
-                {
-                    threshold: 0.08
-                }
-
-            );
+const workCards = document.querySelectorAll(".work-card");
 
 
-        revealElements.forEach((element) => {
-
-            revealObserver.observe(element);
-
-        });
-
-    } else {
-
-        /*
-           Si el navegador no soporta
-           IntersectionObserver,
-           mostramos todo.
-        */
-
-        revealElements.forEach((element) => {
-
-            element.classList.add("visible");
-
-        });
-
-    }
-
-
-    /* =========================
-       PORTFOLIO VIDEOS
-    ========================== */
-
-    const workCards =
-        document.querySelectorAll(".work-card");
-
+function stopAllVideos(exceptVideo = null) {
 
     workCards.forEach((card) => {
 
-        const video =
-            card.querySelector("video");
+        const video = card.querySelector("video");
+        const button = card.querySelector(".video-button");
 
-        const playButton =
-            card.querySelector(".video-play");
+        if (!video) return;
 
-        const muteButton =
-            card.querySelector(".video-mute");
+        if (video !== exceptVideo) {
+
+            video.pause();
+
+            video.muted = true;
+
+            if (button) {
+
+                button.textContent = "▶ Ver video";
+
+                button.classList.remove("playing");
+
+            }
+
+        }
+
+    });
+
+}
 
 
-        if (!video || !playButton || !muteButton) {
+workCards.forEach((card) => {
+
+    const video = card.querySelector("video");
+    const button = card.querySelector(".video-button");
+
+    if (!video || !button) return;
+
+
+    button.addEventListener("click", async (event) => {
+
+        event.preventDefault();
+        event.stopPropagation();
+
+
+        /* Si este video ya está reproduciéndose,
+           simplemente lo pausamos. */
+
+        if (!video.paused) {
+
+            video.pause();
+
+            video.muted = true;
+
+            button.textContent = "▶ Ver video";
+
+            button.classList.remove("playing");
+
             return;
+
         }
 
 
-        /*
-           IMPORTANTE:
-           El video NO se reproduce al pasar
-           el mouse por encima.
-        */
+        /* Detener cualquier otro video */
+
+        stopAllVideos(video);
 
 
-        /* =========================
-           PLAY / PAUSE
-        ========================== */
+        /* Activamos sonido solamente después
+           de la interacción directa del usuario. */
 
-        playButton.addEventListener(
-            "click",
-            () => {
-
-                /*
-                   Si otro video está reproduciéndose,
-                   lo detenemos.
-                */
-
-                document
-                    .querySelectorAll(".work-card video")
-                    .forEach((otherVideo) => {
-
-                        if (
-                            otherVideo !== video &&
-                            !otherVideo.paused
-                        ) {
-
-                            otherVideo.pause();
-
-                            otherVideo.currentTime = 0;
-
-                            const otherButton =
-                                otherVideo
-                                    .closest(".work-card")
-                                    ?.querySelector(".video-play");
-
-                            if (otherButton) {
-
-                                otherButton.textContent = "▶";
-
-                                otherButton.setAttribute(
-                                    "aria-label",
-                                    "Reproducir video"
-                                );
-
-                            }
-
-                        }
-
-                    });
+        video.muted = false;
 
 
-                if (video.paused) {
+        try {
 
-                    video.play()
-                        .then(() => {
+            await video.play();
 
-                            playButton.textContent = "❚❚";
+            button.textContent = "❚❚ Pausar";
 
-                            playButton.setAttribute(
-                                "aria-label",
-                                "Pausar video"
-                            );
+            button.classList.add("playing");
 
-                        })
-                        .catch(() => {
+        } catch (error) {
 
-                            playButton.textContent = "▶";
+            /*
+               Algunos navegadores pueden bloquear
+               reproducción con sonido.
 
-                        });
+               Si ocurre, intentamos reproducir
+               silenciosamente.
+            */
 
-                } else {
+            video.muted = true;
 
-                    video.pause();
+            try {
 
-                    playButton.textContent = "▶";
+                await video.play();
 
-                    playButton.setAttribute(
-                        "aria-label",
-                        "Reproducir video"
-                    );
+                button.textContent = "❚❚ Pausar";
 
-                }
+                button.classList.add("playing");
+
+            } catch (secondError) {
+
+                video.pause();
+
+                video.muted = true;
+
+                button.textContent = "▶ Ver video";
+
+                button.classList.remove("playing");
 
             }
-        );
+
+        }
+
+    });
 
 
-        /* =========================
-           VIDEO TERMINADO
-        ========================== */
+    /* Cuando termina el video */
 
-        video.addEventListener(
-            "ended",
-            () => {
-
-                playButton.textContent = "▶";
-
-                playButton.setAttribute(
-                    "aria-label",
-                    "Reproducir video"
-                );
-
-            }
-        );
-
-
-        /* =========================
-           SONIDO
-        ========================== */
-
-        muteButton.addEventListener(
-            "click",
-            () => {
-
-                video.muted = !video.muted;
-
-
-                if (video.muted) {
-
-                    muteButton.textContent = "🔇";
-
-                    muteButton.setAttribute(
-                        "aria-label",
-                        "Activar sonido"
-                    );
-
-                } else {
-
-                    muteButton.textContent = "🔊";
-
-                    muteButton.setAttribute(
-                        "aria-label",
-                        "Silenciar video"
-                    );
-
-                }
-
-            }
-        );
-
-
-        /* =========================
-           SI SE PAUSA DE OTRA FORMA
-        ========================== */
-
-        video.addEventListener(
-            "pause",
-            () => {
-
-                if (
-                    video.currentTime <
-                    video.duration
-                ) {
-
-                    playButton.textContent = "▶";
-
-                    playButton.setAttribute(
-                        "aria-label",
-                        "Reproducir video"
-                    );
-
-                }
-
-            }
-        );
-
-
-        /* =========================
-           ESTADO INICIAL
-        ========================== */
+    video.addEventListener("ended", () => {
 
         video.pause();
 
         video.muted = true;
 
+        button.textContent = "▶ Ver video";
+
+        button.classList.remove("playing");
+
+    });
+
+});
+
+
+/* ==========================================================
+   MENÚ MOBILE
+========================================================== */
+
+const menuToggle = document.querySelector(".menu-toggle");
+const navLinks = document.querySelector(".nav-links");
+
+
+if (menuToggle && navLinks) {
+
+    menuToggle.addEventListener("click", () => {
+
+        navLinks.classList.toggle("active");
+
     });
 
 
-});
+    navLinks.querySelectorAll("a").forEach((link) => {
+
+        link.addEventListener("click", () => {
+
+            navLinks.classList.remove("active");
+
+        });
+
+    });
+
+}
