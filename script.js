@@ -30,6 +30,11 @@ if (navbar) {
 const revealElements =
     document.querySelectorAll(".reveal");
 
+revealElements.forEach((element) => {
+    element.classList.add("ready");
+});
+
+
 if ("IntersectionObserver" in window) {
 
     const revealObserver =
@@ -57,17 +62,13 @@ if ("IntersectionObserver" in window) {
         );
 
     revealElements.forEach((element) => {
-
         revealObserver.observe(element);
-
     });
 
 } else {
 
     revealElements.forEach((element) => {
-
         element.classList.add("visible");
-
     });
 
 }
@@ -139,13 +140,9 @@ if (menuToggle && navLinks) {
    PORTFOLIO VIDEOS
 ========================= */
 
-/*
-   Solo permitimos que se reproduzca
-   un video a la vez.
-*/
-
 const portfolioVideos =
     document.querySelectorAll(".work-card video");
+
 
 portfolioVideos.forEach((video) => {
 
@@ -153,7 +150,10 @@ portfolioVideos.forEach((video) => {
 
         portfolioVideos.forEach((otherVideo) => {
 
-            if (otherVideo !== video) {
+            if (
+                otherVideo !== video &&
+                !otherVideo.paused
+            ) {
                 otherVideo.pause();
             }
 
