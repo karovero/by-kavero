@@ -53,7 +53,7 @@ body {
 img,
 video {
     display: block;
-    width: 100%;
+    max-width: 100%;
 }
 
 a {
@@ -173,6 +173,15 @@ section {
     transform: translateY(-2px);
 }
 
+.menu-toggle {
+    display: none;
+    border: none;
+    background: transparent;
+    color: var(--brown);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
 
 /* ==========================================================
    HERO
@@ -249,11 +258,15 @@ section {
 
 .hero-photo {
     position: relative;
+    width: 100%;
+    max-width: 650px;
+    margin-left: auto;
     aspect-ratio: 4 / 5;
     overflow: hidden;
     border-radius: var(--radius-large);
     background: var(--rose-light);
-    box-shadow: 0 25px 70px rgba(64, 53, 51, 0.12);
+    box-shadow:
+        0 25px 70px rgba(64, 53, 51, 0.12);
 }
 
 .hero-photo img {
@@ -382,7 +395,8 @@ section {
 
 .service-card:hover {
     transform: translateY(-7px);
-    box-shadow: 0 20px 50px rgba(64, 53, 51, 0.08);
+    box-shadow:
+        0 20px 50px rgba(64, 53, 51, 0.08);
 }
 
 .service-card > span {
@@ -426,36 +440,88 @@ section {
 .portfolio-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 28px 18px;
+    gap: 28px 20px;
 }
 
+
+/* ==========================================================
+   WORK CARD
+========================================================== */
+
 .work-card {
-    position: relative;
     min-width: 0;
 }
 
 .video-wrapper {
     position: relative;
     width: 100%;
+    max-width: 330px;
+    margin: 0 auto;
     aspect-ratio: 9 / 14;
     overflow: hidden;
     border-radius: var(--radius-medium);
     background: var(--brown);
+    box-shadow:
+        0 15px 40px rgba(64, 53, 51, 0.10);
 }
 
-.video-wrapper video {
+.portfolio-video {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
+    background: var(--brown);
 }
 
 
-/* Información del video */
+/* ==========================================================
+   VIDEO CONTROLS
+========================================================== */
+
+.video-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.video-button {
+    width: 42px;
+    height: 42px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: var(--white);
+    color: var(--brown);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.85rem;
+    box-shadow:
+        0 6px 18px rgba(64, 53, 51, 0.08);
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        color 0.25s ease;
+}
+
+.video-button:hover {
+    transform: translateY(-2px);
+    background: var(--brown);
+    color: var(--white);
+}
+
+.video-button:active {
+    transform: scale(0.94);
+}
+
+
+/* ==========================================================
+   WORK INFO
+========================================================== */
 
 .work-info {
-    position: relative;
-    padding: 15px 4px 0;
+    padding: 16px 4px 0;
 }
 
 .work-info span {
@@ -469,45 +535,8 @@ section {
 .work-info h3 {
     margin-top: 5px;
     font-family: var(--title-font);
-    font-size: 1.45rem;
+    font-size: 1.5rem;
     font-weight: 400;
-}
-
-
-/* Botón debajo */
-
-.video-button {
-    width: 100%;
-    min-height: 44px;
-    margin-top: 13px;
-    padding: 0 18px;
-
-    border: 1px solid var(--line);
-    border-radius: 999px;
-
-    background: rgba(255, 255, 255, 0.45);
-    color: var(--brown);
-
-    font-size: 0.78rem;
-    font-weight: 700;
-
-    cursor: pointer;
-
-    transition:
-        background 0.3s ease,
-        color 0.3s ease,
-        transform 0.3s ease;
-}
-
-.video-button:hover {
-    background: var(--brown);
-    color: var(--white);
-    transform: translateY(-2px);
-}
-
-.video-button.playing {
-    background: var(--brown);
-    color: var(--white);
 }
 
 
@@ -675,7 +704,6 @@ section {
 .collaboration-note {
     max-width: 520px !important;
     margin: 0 auto 28px !important;
-    color: var(--muted);
     font-size: 0.85rem;
     line-height: 1.7;
 }
@@ -722,7 +750,6 @@ footer {
     text-align: center;
     font-size: 0.75rem;
     font-weight: 700;
-
     transition:
         background 0.3s ease,
         color 0.3s ease,
@@ -753,40 +780,26 @@ footer {
 
 /*
    IMPORTANTE:
-   Los elementos SIEMPRE permanecen visibles.
-   JavaScript solamente añade la animación.
+   JavaScript solo activa la animación.
+   El contenido NO desaparece si JS no funciona.
 */
 
 .reveal {
     opacity: 1;
     transform: none;
+}
+
+.js-ready .reveal {
+    opacity: 0;
+    transform: translateY(25px);
     transition:
         opacity 0.8s ease,
         transform 0.8s ease;
 }
 
-.reveal.animate {
-    opacity: 0;
-    transform: translateY(25px);
-}
-
-.reveal.animate.visible {
+.js-ready .reveal.visible {
     opacity: 1;
     transform: translateY(0);
-}
-
-
-/* ==========================================================
-   MENU MOBILE
-========================================================== */
-
-.menu-toggle {
-    display: none;
-    border: none;
-    background: transparent;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: var(--brown);
 }
 
 
@@ -798,6 +811,10 @@ footer {
 
     .nav-links {
         display: none;
+    }
+
+    .menu-toggle {
+        display: block;
     }
 
     .hero-grid,
@@ -827,17 +844,22 @@ footer {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    .menu-toggle {
-        display: block;
-    }
+}
 
-    .nav-links.active {
+
+/* ==========================================================
+   MOBILE MENU
+========================================================== */
+
+@media (max-width: 768px) {
+
+    .nav-links {
         position: absolute;
         top: 100%;
-        left: 0;
-        right: 0;
+        left: 15px;
+        right: 15px;
 
-        display: flex;
+        display: none;
         flex-direction: column;
         align-items: center;
 
@@ -845,10 +867,17 @@ footer {
 
         background: var(--cream);
 
-        border-top: 1px solid var(--line);
+        border: 1px solid var(--line);
+        border-radius: 20px;
 
-        box-shadow: 0 15px 35px rgba(64, 53, 51, 0.08);
+        box-shadow:
+            0 15px 35px rgba(64, 53, 51, 0.08);
     }
+
+    .nav-links.active {
+        display: flex;
+    }
+
 }
 
 
@@ -894,8 +923,8 @@ footer {
     }
 
     .hero-photo {
-        width: 100%;
-        max-width: 430px;
+        max-width: 100%;
+        border-radius: 28px;
     }
 
     .section-title {
@@ -906,38 +935,41 @@ footer {
         );
     }
 
+    .services-grid,
+    .pricing-grid,
+    .process-grid {
+        grid-template-columns: 1fr;
+    }
 
-    /* PORTFOLIO MOBILE */
+    /*
+       Un solo video por fila en celular.
+       El ancho se mantiene contenido y elegante.
+    */
 
     .portfolio-grid {
         grid-template-columns: 1fr;
         gap: 38px;
     }
 
-    .work-card {
-        width: min(100%, 390px);
-        margin-inline: auto;
-    }
-
     .video-wrapper {
+        width: min(100%, 300px);
+        max-width: 300px;
         aspect-ratio: 9 / 14;
-        border-radius: 22px;
     }
 
-    .work-info {
-        padding-top: 14px;
+    .video-controls {
+        margin-top: 10px;
     }
 
     .video-button {
-        min-height: 46px;
-        margin-top: 12px;
+        width: 40px;
+        height: 40px;
     }
 
-
-    .services-grid,
-    .pricing-grid,
-    .process-grid {
-        grid-template-columns: 1fr;
+    .work-info {
+        width: min(100%, 300px);
+        margin-inline: auto;
+        padding-top: 14px;
     }
 
     .price-card.featured {
@@ -973,6 +1005,7 @@ footer {
     .social-links a {
         flex: 1;
     }
+
 }
 
 
@@ -993,4 +1026,6 @@ footer {
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
     }
+
 }
+</html>
