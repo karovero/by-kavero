@@ -31,35 +31,40 @@
 
     <header class="navbar" id="navbar">
 
-    <div class="container navbar-inner">
+        <div class="container navbar-inner">
 
-        <a href="#inicio" class="logo">
-            By Kavero
-        </a>
-
-        <nav class="nav-links">
-
-            <a href="#sobre-mi">Sobre mí</a>
-
-            <a href="#servicios">Servicios</a>
-
-            <a href="#trabajo">Mi trabajo</a>
-
-            <a href="#tarifas">Tarifas</a>
-
-            <a href="#contacto" class="nav-button">
-                Hablemos
+            <a href="#inicio" class="logo">
+                By Kavero
             </a>
 
-        </nav>
+            <nav class="nav-links">
 
-        <button class="menu-toggle" aria-label="Abrir menú">
-            ☰
-        </button>
+                <a href="#sobre-mi">Sobre mí</a>
 
-    </div>
+                <a href="#servicios">Servicios</a>
 
-</header>
+                <a href="#trabajo">Mi trabajo</a>
+
+                <a href="#tarifas">Tarifas</a>
+
+                <a href="#contacto" class="nav-button">
+                    Hablemos
+                </a>
+
+            </nav>
+
+            <button
+                class="menu-toggle"
+                type="button"
+                aria-label="Abrir menú"
+                aria-expanded="false"
+            >
+                ☰
+            </button>
+
+        </div>
+
+    </header>
 
 
     <main>
@@ -103,25 +108,19 @@
                 </div>
 
 
-                <!-- VIDEO PRINCIPAL -->
-
                 <div class="hero-video reveal">
 
-                    <div class="hero-photo reveal">
+                    <div class="hero-photo">
 
-    <img
-        src="images/foto-karoline.jpg"
-        alt="Karoline Delgado — By Kavero"
-    >
+                        <img
+                            src="images/foto-karoline.jpg"
+                            alt="Karoline Delgado — By Kavero"
+                        >
 
-    <div class="hero-label">
-        Beauty · Lifestyle · UGC
-    </div>
+                        <div class="hero-label">
+                            Beauty · Lifestyle · UGC
+                        </div>
 
-</div>
-
-                    <div class="hero-label">
-                        Beauty · Lifestyle · UGC
                     </div>
 
                 </div>
@@ -174,7 +173,6 @@
                     >
 
                 </div>
-
 
                 <div class="about-content reveal">
 
@@ -233,11 +231,9 @@
 
                 </div>
 
-
                 <div class="services-grid">
 
                     <article class="service-card reveal">
-
                         <span>01</span>
 
                         <h3>
@@ -248,12 +244,9 @@
                             Videos verticales auténticos pensados
                             para conectar con tu audiencia.
                         </p>
-
                     </article>
 
-
                     <article class="service-card reveal">
-
                         <span>02</span>
 
                         <h3>
@@ -264,12 +257,9 @@
                             Muestro cómo funciona tu producto
                             de forma clara y atractiva.
                         </p>
-
                     </article>
 
-
                     <article class="service-card reveal">
-
                         <span>03</span>
 
                         <h3>
@@ -280,12 +270,9 @@
                             Opiniones y testimonios que ayudan
                             a generar confianza.
                         </p>
-
                     </article>
 
-
                     <article class="service-card reveal">
-
                         <span>04</span>
 
                         <h3>
@@ -296,12 +283,9 @@
                             Primeras impresiones que generan
                             curiosidad y emoción.
                         </p>
-
                     </article>
 
-
                     <article class="service-card reveal">
-
                         <span>05</span>
 
                         <h3>
@@ -312,12 +296,9 @@
                             Historias cotidianas que integran
                             productos de forma natural.
                         </p>
-
                     </article>
 
-
                     <article class="service-card reveal">
-
                         <span>06</span>
 
                         <h3>
@@ -328,7 +309,6 @@
                             Contenido cercano y visual que muestra
                             productos dentro de situaciones reales.
                         </p>
-
                     </article>
 
                 </div>
@@ -368,17 +348,27 @@
 
                 <div class="portfolio-grid">
 
-                    <!-- 01 -->
+
+                    <!-- 01 COVERGIRL -->
 
                     <article class="work-card reveal">
-<video
-    src="covergirl.mp4"
-    poster="posters/covergirl.jpg"
-    controls
-    playsinline
-    preload="metadata">
-</video>
-                        
+
+                        <video
+                            src="covergirl.mp4"
+                            poster="posters/covergirl.jpg"
+                            controls
+                            playsinline
+                            preload="metadata"
+                        ></video>
+
+                        <button
+                            class="video-toggle"
+                            type="button"
+                            aria-label="Reproducir video"
+                            aria-pressed="false"
+                        >
+                            ▶
+                        </button>
 
                         <div class="work-info">
 
@@ -395,20 +385,26 @@
                     </article>
 
 
-                    <!-- 02 -->
+                    <!-- 02 CICAPLAST -->
 
                     <article class="work-card reveal">
 
                         <video
                             src="cicaplast.mp4"
-        
-    src="cicaplast.mp4"
-    poster="posters/cicaplast.jpg"
-    controls
-    playsinline
-    preload="metadata">
+                            poster="posters/cicaplast.jpg"
+                            controls
+                            playsinline
+                            preload="metadata"
+                        ></video>
 
-                        </video>
+                        <button
+                            class="video-toggle"
+                            type="button"
+                            aria-label="Reproducir video"
+                            aria-pressed="false"
+                        >
+                            ▶
+                        </button>
 
                         <div class="work-info">
 
@@ -425,18 +421,26 @@
                     </article>
 
 
-                    <!-- 03 -->
+                    <!-- 03 RELOJ -->
 
                     <article class="work-card reveal">
 
                         <video
                             src="reloj.mp4"
-                             poster="posters/reloj.jpg"
+                            poster="posters/reloj.jpg"
                             controls
                             playsinline
-                             preload="metadata"
-                         >
-                        </video>
+                            preload="metadata"
+                        ></video>
+
+                        <button
+                            class="video-toggle"
+                            type="button"
+                            aria-label="Reproducir video"
+                            aria-pressed="false"
+                        >
+                            ▶
+                        </button>
 
                         <div class="work-info">
 
@@ -453,18 +457,26 @@
                     </article>
 
 
-                    <!-- 04 -->
+                    <!-- 04 MAYBELLINE -->
 
                     <article class="work-card reveal">
 
                         <video
                             src="maybelline.mp4"
-                             poster="posters/maybelline.jpg"
+                            poster="posters/maybelline.jpg"
                             controls
                             playsinline
-                             preload="metadata"
-                            >
-                        </video>
+                            preload="metadata"
+                        ></video>
+
+                        <button
+                            class="video-toggle"
+                            type="button"
+                            aria-label="Reproducir video"
+                            aria-pressed="false"
+                        >
+                            ▶
+                        </button>
 
                         <div class="work-info">
 
@@ -481,18 +493,26 @@
                     </article>
 
 
-                    <!-- 05 -->
+                    <!-- 05 SILLONES -->
 
                     <article class="work-card reveal">
 
                         <video
                             src="sillones.mp4"
-                             poster="posters/sillones.jpg"
+                            poster="posters/sillones.jpg"
                             controls
                             playsinline
-                             preload="metadata"
-                           >
-                        </video>
+                            preload="metadata"
+                        ></video>
+
+                        <button
+                            class="video-toggle"
+                            type="button"
+                            aria-label="Reproducir video"
+                            aria-pressed="false"
+                        >
+                            ▶
+                        </button>
 
                         <div class="work-info">
 
@@ -509,18 +529,26 @@
                     </article>
 
 
-                    <!-- 06 -->
+                    <!-- 06 FASHION -->
 
                     <article class="work-card reveal">
 
                         <video
                             src="fashion.mp4"
-                             poster="posters/fashion.jpg"
+                            poster="posters/fashion.jpg"
                             controls
                             playsinline
-                             preload="metadata"
-                           >
-                        </video>
+                            preload="metadata"
+                        ></video>
+
+                        <button
+                            class="video-toggle"
+                            type="button"
+                            aria-label="Reproducir video"
+                            aria-pressed="false"
+                        >
+                            ▶
+                        </button>
 
                         <div class="work-info">
 
@@ -537,18 +565,26 @@
                     </article>
 
 
-                    <!-- 07 -->
+                    <!-- 07 CAFETERIA -->
 
                     <article class="work-card reveal">
 
                         <video
                             src="cafeteria.mp4"
-                             poster="posters/cafeteria.jpg"
+                            poster="posters/cafeteria.jpg"
                             controls
                             playsinline
-                             preload="metadata"
-                          >
-                        </video>
+                            preload="metadata"
+                        ></video>
+
+                        <button
+                            class="video-toggle"
+                            type="button"
+                            aria-label="Reproducir video"
+                            aria-pressed="false"
+                        >
+                            ▶
+                        </button>
 
                         <div class="work-info">
 
@@ -565,18 +601,26 @@
                     </article>
 
 
-                    <!-- 08 -->
+                    <!-- 08 MASCARILLA -->
 
                     <article class="work-card reveal">
 
                         <video
                             src="mascarilla.mp4"
-                             poster="posters/mascarilla.jpg"
+                            poster="posters/mascarilla.jpg"
                             controls
                             playsinline
-                             preload="metadata"
-                          >
-                        </video>
+                            preload="metadata"
+                        ></video>
+
+                        <button
+                            class="video-toggle"
+                            type="button"
+                            aria-label="Reproducir video"
+                            aria-pressed="false"
+                        >
+                            ▶
+                        </button>
 
                         <div class="work-info">
 
@@ -593,18 +637,26 @@
                     </article>
 
 
-                    <!-- 09 -->
+                    <!-- 09 WHAT'S IN MY BAG -->
 
                     <article class="work-card reveal">
 
                         <video
                             src="whats-in-my-bag.mp4"
-                             poster="posters/whats-in-my-bag.jpg"
+                            poster="posters/whats-in-my-bag.jpg"
                             controls
                             playsinline
-                             preload="metadata"
-                          >
-                        </video>
+                            preload="metadata"
+                        ></video>
+
+                        <button
+                            class="video-toggle"
+                            type="button"
+                            aria-label="Reproducir video"
+                            aria-pressed="false"
+                        >
+                            ▶
+                        </button>
 
                         <div class="work-info">
 
@@ -621,7 +673,7 @@
                     </article>
 
 
-                    <!-- 10 -->
+                    <!-- 10 PRODUCT TREND -->
 
                     <article class="work-card reveal">
 
@@ -630,8 +682,17 @@
                             poster="posters/product-trend.jpg"
                             controls
                             playsinline
-                             preload="metadata">
-                        </video>
+                            preload="metadata"
+                        ></video>
+
+                        <button
+                            class="video-toggle"
+                            type="button"
+                            aria-label="Reproducir video"
+                            aria-pressed="false"
+                        >
+                            ▶
+                        </button>
 
                         <div class="work-info">
 
@@ -648,18 +709,26 @@
                     </article>
 
 
-                    <!-- 11 -->
+                    <!-- 11 FOOD LIFESTYLE -->
 
                     <article class="work-card reveal">
 
                         <video
                             src="food-lifestyle.mp4"
-                             poster="posters/food-lifestyle.jpg"
+                            poster="posters/food-lifestyle.jpg"
                             controls
                             playsinline
-                             preload="metadata"
-                          >
-                        </video>
+                            preload="metadata"
+                        ></video>
+
+                        <button
+                            class="video-toggle"
+                            type="button"
+                            aria-label="Reproducir video"
+                            aria-pressed="false"
+                        >
+                            ▶
+                        </button>
 
                         <div class="work-info">
 
@@ -674,6 +743,7 @@
                         </div>
 
                     </article>
+
 
                 </div>
 
@@ -738,7 +808,7 @@
                         </h3>
 
                         <strong>
-                           ₡45.000
+                            ₡45.000
                         </strong>
 
                         <ul>
@@ -783,9 +853,10 @@
 
                     Las tarifas indicadas son precios base y pueden variar según los requerimientos de cada proyecto.
 
-Derechos de uso publicitario: se cotizan por separado según la plataforma, duración y alcance de la campaña.
+                    Derechos de uso publicitario: se cotizan por separado según la plataforma, duración y alcance de la campaña.
 
-Exclusividad y raw footage: disponibles con costo adicional.
+                    Exclusividad y raw footage: disponibles con costo adicional.
+
                 </p>
 
             </div>
@@ -914,16 +985,18 @@ Exclusividad y raw footage: disponibles con costo adicional.
                             mostrar de una manera auténtica, me encantaría
                             crear contigo.
                         </p>
-                        <p class="collaboration-note">
-    También estoy abierta a colaboraciones seleccionadas por canje
-    con marcas y productos que estén alineados con mi contenido y estilo.
-</p>
 
-                      <a
-    href="mailto:contact.bykavero@gmail.com"
-    class="button button-dark">
-    Enviar correo →
-</a>
+                        <p class="collaboration-note">
+                            También estoy abierta a colaboraciones seleccionadas por canje
+                            con marcas y productos que estén alineados con mi contenido y estilo.
+                        </p>
+
+                        <a
+                            href="mailto:contact.bykavero@gmail.com"
+                            class="button button-dark"
+                        >
+                            Enviar correo →
+                        </a>
 
                     </div>
 
@@ -961,33 +1034,37 @@ Exclusividad y raw footage: disponibles con costo adicional.
 
                 <div class="social-links">
 
-    <a
-        href="https://instagram.com/by_kavero"
-        target="_blank"
-        rel="noopener noreferrer">
-        Instagram
-    </a>
+                    <a
+                        href="https://instagram.com/by_kavero"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Instagram
+                    </a>
 
-    <a
-        href="https://tiktok.com/@by_kavero"
-        target="_blank"
-        rel="noopener noreferrer">
-        TikTok
-    </a>
+                    <a
+                        href="https://tiktok.com/@by_kavero"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        TikTok
+                    </a>
 
-    <a
-        href="mailto:contact.bykavero@gmail.com">
-        Email
-    </a>
+                    <a
+                        href="mailto:contact.bykavero@gmail.com"
+                    >
+                        Email
+                    </a>
 
-    <a
-        href="https://wa.me/50685079159"
-        target="_blank"
-        rel="noopener noreferrer">
-        WhatsApp
-    </a>
+                    <a
+                        href="https://wa.me/50685079159"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        WhatsApp
+                    </a>
 
-</div>
+                </div>
 
             </div>
 
