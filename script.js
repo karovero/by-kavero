@@ -148,53 +148,26 @@ if (menuToggle && navLinks) {
    PORTFOLIO VIDEOS
 ========================= */
 
-const portfolioCards =
-    document.querySelectorAll(".work-card");
-
 const portfolioVideos =
     document.querySelectorAll(".work-card video");
 
 
-portfolioCards.forEach((card) => {
+portfolioVideos.forEach((video) => {
 
-    const video =
-        card.querySelector("video");
+    const card =
+        video.closest(".work-card");
 
-
-    if (!video) return;
+    if (!card) return;
 
 
     /* =========================
-       PLAY / PAUSE BUTTON
+       USE EXISTING BUTTON
     ========================= */
 
     const toggle =
-        document.createElement("button");
+        card.querySelector(".video-toggle");
 
-
-    toggle.type = "button";
-
-    toggle.className =
-        "video-toggle";
-
-
-    toggle.setAttribute(
-        "aria-label",
-        "Reproducir video"
-    );
-
-
-    toggle.setAttribute(
-        "aria-pressed",
-        "false"
-    );
-
-
-    toggle.innerHTML =
-        '<span aria-hidden="true">▶</span>';
-
-
-    card.appendChild(toggle);
+    if (!toggle) return;
 
 
     /* =========================
@@ -245,14 +218,10 @@ portfolioCards.forEach((card) => {
         (event) => {
 
             event.preventDefault();
-
             event.stopPropagation();
 
 
-            if (
-                video.paused ||
-                video.ended
-            ) {
+            if (video.paused || video.ended) {
 
                 video.play().catch(() => {});
 
