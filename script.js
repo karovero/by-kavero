@@ -2,6 +2,8 @@
    BY KAVERO — JAVASCRIPT
 ========================================================== */
 
+document.documentElement.classList.add("js-ready");
+
 
 /* ==========================================================
    NAVBAR
@@ -21,9 +23,14 @@ if (navbar) {
 
     };
 
-    window.addEventListener("scroll", updateNavbar);
-
     updateNavbar();
+
+    window.addEventListener(
+        "scroll",
+        updateNavbar,
+        { passive: true }
+    );
+
 }
 
 
@@ -31,46 +38,52 @@ if (navbar) {
    SCROLL REVEAL
 ========================================================== */
 
-const revealElements = document.querySelectorAll(".reveal");
+const revealElements =
+    document.querySelectorAll(".reveal");
+
 
 if ("IntersectionObserver" in window) {
 
+    const revealObserver =
+        new IntersectionObserver(
+
+            (entries) => {
+
+                entries.forEach((entry) => {
+
+                    if (entry.isIntersecting) {
+
+                        entry.target.classList.add("visible");
+
+                        revealObserver.unobserve(
+                            entry.target
+                        );
+
+                    }
+
+                });
+
+            },
+
+            {
+                threshold: 0.12
+            }
+
+        );
+
+
     revealElements.forEach((element) => {
-        element.classList.add("animate");
-    });
 
-    const revealObserver = new IntersectionObserver(
-
-        (entries) => {
-
-            entries.forEach((entry) => {
-
-                if (entry.isIntersecting) {
-
-                    entry.target.classList.add("visible");
-
-                    revealObserver.unobserve(entry.target);
-
-                }
-
-            });
-
-        },
-
-        {
-            threshold: 0.08
-        }
-
-    );
-
-    revealElements.forEach((element) => {
         revealObserver.observe(element);
+
     });
 
 } else {
 
     revealElements.forEach((element) => {
+
         element.classList.add("visible");
+
     });
 
 }
@@ -80,181 +93,245 @@ if ("IntersectionObserver" in window) {
    PORTFOLIO VIDEOS
 ========================================================== */
 
-/*
-   REGLAS:
-
-   1. Los videos NO se reproducen con hover.
-   2. Los videos NO se reproducen automáticamente.
-   3. Solo se reproducen mediante el botón inferior.
-   4. Solo puede haber un video reproduciéndose.
-   5. Al reproducir otro video, el anterior se pausa.
-   6. El botón cambia entre "Ver video" y "Pausar".
-*/
+const videos =
+    document.querySelectorAll(".portfolio-video");
 
 
-const workCards = document.querySelectorAll(".work-card");
+videos.forEach((video) => {
+
+    const card =
+        video.closest(".work-card");
+
+    const playButton =
+        card?.querySelector(".play-button");
+
+    const muteButton =
+        card?.querySelector(".mute-button");
 
 
-function stopAllVideos(exceptVideo = null) {
+    /* -----------------------------------------
+       REPRODUCIR / PAUSAR
+    ----------------------------------------- */
 
-    workCards.forEach((card) => {
+    if (playButton) {
 
-        const video = card.querySelector("video");
-        const button = card.querySelector(".video-button");
+        playButton.addEventListener(
+            "click",
+            async () => {
 
-        if (!video) return;
+                /*
+                   Antes de reproducir este video,
+                   detenemos TODOS los demás.
+                */
 
-        if (video !== exceptVideo) {
+                videos.forEach((otherVideo) => {
 
-            video.pause();
+                    if (otherVideo !== video) {
 
-            video.muted = true;
+                        otherVideo.pause();
 
-            if (button) {
+                        const otherCard =
+                            otherVideo.closest(".work-card");
 
-                button.textContent = "▶ Ver video";
+                        const otherButton =
+                            otherCard?.querySelector(
+                                ".play-button"
+                            );
 
-                button.classList.remove("playing");
+                        if (otherButton) {
+                            otherButton.textContent = "▶";
+                        }
 
+                    }
+
+                });
+
+
+                if (video.paused) {
+
+                    try {
+
+                        await video.play();
+
+                        playButton.textContent = "❚❚";
+
+                    } catch (error) {
+
+                        console.log(
+                            "No se pudo reproducir el video.",
+                            error
+                        );
+
+                    }
+
+                } else {
+
+                    video.pause();
+
+                    playButton.textContent = "▶";
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* -----------------------------------------
+       ACTUALIZAR BOTÓN AL PAUSAR
+    ----------------------------------------- */
+
+    video.addEventListener(
+        "pause",
+        () => {
+
+            if (playButton) {
+                playButton.textContent = "▶";
             }
 
         }
-
-    });
-
-}
+    );
 
 
-workCards.forEach((card) => {
+    /* -----------------------------------------
+       ACTUALIZAR BOTÓN AL REPRODUCIR
+    ----------------------------------------- */
 
-    const video = card.querySelector("video");
-    const button = card.querySelector(".video-button");
+    video.addEventListener(
+        "play",
+        () => {
 
-    if (!video || !button) return;
-
-
-    button.addEventListener("click", async (event) => {
-
-        event.preventDefault();
-        event.stopPropagation();
-
-
-        /* Si este video ya está reproduciéndose,
-           simplemente lo pausamos. */
-
-        if (!video.paused) {
-
-            video.pause();
-
-            video.muted = true;
-
-            button.textContent = "▶ Ver video";
-
-            button.classList.remove("playing");
-
-            return;
-
-        }
-
-
-        /* Detener cualquier otro video */
-
-        stopAllVideos(video);
-
-
-        /* Activamos sonido solamente después
-           de la interacción directa del usuario. */
-
-        video.muted = false;
-
-
-        try {
-
-            await video.play();
-
-            button.textContent = "❚❚ Pausar";
-
-            button.classList.add("playing");
-
-        } catch (error) {
-
-            /*
-               Algunos navegadores pueden bloquear
-               reproducción con sonido.
-
-               Si ocurre, intentamos reproducir
-               silenciosamente.
-            */
-
-            video.muted = true;
-
-            try {
-
-                await video.play();
-
-                button.textContent = "❚❚ Pausar";
-
-                button.classList.add("playing");
-
-            } catch (secondError) {
-
-                video.pause();
-
-                video.muted = true;
-
-                button.textContent = "▶ Ver video";
-
-                button.classList.remove("playing");
-
+            if (playButton) {
+                playButton.textContent = "❚❚";
             }
 
         }
+    );
 
-    });
+
+    /* -----------------------------------------
+       CUANDO TERMINA
+    ----------------------------------------- */
+
+    video.addEventListener(
+        "ended",
+        () => {
+
+            video.currentTime = 0;
+
+            if (playButton) {
+                playButton.textContent = "▶";
+            }
+
+        }
+    );
 
 
-    /* Cuando termina el video */
+    /* -----------------------------------------
+       SONIDO
+    ----------------------------------------- */
 
-    video.addEventListener("ended", () => {
+    if (muteButton) {
 
-        video.pause();
+        muteButton.addEventListener(
+            "click",
+            () => {
 
-        video.muted = true;
+                video.muted = !video.muted;
 
-        button.textContent = "▶ Ver video";
+                muteButton.textContent =
+                    video.muted
+                        ? "🔇"
+                        : "🔊";
 
-        button.classList.remove("playing");
+            }
+        );
 
-    });
+    }
 
 });
 
 
 /* ==========================================================
-   MENÚ MOBILE
+   MENÚ MÓVIL
 ========================================================== */
 
-const menuToggle = document.querySelector(".menu-toggle");
-const navLinks = document.querySelector(".nav-links");
+const menuToggle =
+    document.querySelector(".menu-toggle");
+
+const navLinks =
+    document.querySelector(".nav-links");
 
 
 if (menuToggle && navLinks) {
 
-    menuToggle.addEventListener("click", () => {
+    menuToggle.addEventListener(
+        "click",
+        () => {
 
-        navLinks.classList.toggle("active");
+            const isOpen =
+                navLinks.classList.toggle("active");
 
-    });
+            menuToggle.setAttribute(
+                "aria-expanded",
+                isOpen ? "true" : "false"
+            );
+
+            menuToggle.textContent =
+                isOpen ? "×" : "☰";
+
+        }
+    );
 
 
-    navLinks.querySelectorAll("a").forEach((link) => {
+    navLinks
+        .querySelectorAll("a")
+        .forEach((link) => {
 
-        link.addEventListener("click", () => {
+            link.addEventListener(
+                "click",
+                () => {
 
-            navLinks.classList.remove("active");
+                    navLinks.classList.remove(
+                        "active"
+                    );
+
+                    menuToggle.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                    menuToggle.textContent = "☰";
+
+                }
+            );
 
         });
 
-    });
-
 }
+
+
+/* ==========================================================
+   SEGURIDAD EXTRA:
+   SI EL VIDEO CAMBIA, SOLO UNO PUEDE ESTAR REPRODUCIÉNDOSE
+========================================================== */
+
+videos.forEach((video) => {
+
+    video.addEventListener(
+        "play",
+        () => {
+
+            videos.forEach((otherVideo) => {
+
+                if (otherVideo !== video) {
+                    otherVideo.pause();
+                }
+
+            });
+
+        }
+    );
+
+});
