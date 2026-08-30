@@ -13,13 +13,12 @@ if (navbar) {
 
     window.addEventListener("scroll", () => {
 
-        if (window.scrollY > 30) {
-            navbar.classList.add("scrolled");
-        } else {
-            navbar.classList.remove("scrolled");
-        }
+        navbar.classList.toggle(
+            "scrolled",
+            window.scrollY > 30
+        );
 
-    });
+    }, { passive: true });
 
 }
 
@@ -31,37 +30,52 @@ if (navbar) {
 const revealElements =
     document.querySelectorAll(".reveal");
 
-const revealObserver =
-    new IntersectionObserver(
 
-        (entries) => {
+if ("IntersectionObserver" in window) {
 
-            entries.forEach((entry) => {
+    const revealObserver =
+        new IntersectionObserver(
 
-                if (entry.isIntersecting) {
+            (entries) => {
 
-                    entry.target.classList.add("visible");
+                entries.forEach((entry) => {
 
-                    revealObserver.unobserve(entry.target);
+                    if (entry.isIntersecting) {
 
-                }
+                        entry.target.classList.add("visible");
 
-            });
+                        revealObserver.unobserve(
+                            entry.target
+                        );
 
-        },
+                    }
 
-        {
-            threshold: 0.12
-        }
+                });
 
-    );
+            },
+
+            {
+                threshold: 0.12
+            }
+
+        );
 
 
-revealElements.forEach((element) => {
+    revealElements.forEach((element) => {
 
-    revealObserver.observe(element);
+        revealObserver.observe(element);
 
-});
+    });
+
+} else {
+
+    revealElements.forEach((element) => {
+
+        element.classList.add("visible");
+
+    });
+
+}
 
 
 /* =========================
@@ -74,22 +88,250 @@ const menuToggle =
 const navLinks =
     document.querySelector(".nav-links");
 
+
 if (menuToggle && navLinks) {
+
+    menuToggle.setAttribute(
+        "aria-expanded",
+        "false"
+    );
+
 
     menuToggle.addEventListener("click", () => {
 
-        navLinks.classList.toggle("active");
+        const isOpen =
+            navLinks.classList.toggle("active");
+
+        menuToggle.setAttribute(
+            "aria-expanded",
+            String(isOpen)
+        );
+
+        menuToggle.setAttribute(
+            "aria-label",
+            isOpen
+                ? "Cerrar menú"
+                : "Abrir menú"
+        );
 
     });
 
-    navLinks.querySelectorAll("a").forEach((link) => {
 
-        link.addEventListener("click", () => {
+    navLinks
+        .querySelectorAll("a")
+        .forEach((link) => {
 
-            navLinks.classList.remove("active");
+            link.addEventListener("click", () => {
+
+                navLinks.classList.remove(
+                    "active"
+                );
+
+                menuToggle.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+                menuToggle.setAttribute(
+                    "aria-label",
+                    "Abrir menú"
+                );
+
+            });
 
         });
 
-    });
-
 }
+
+
+/* =========================
+   PORTFOLIO VIDEOS
+========================= */
+
+const portfolioCards =
+    document.querySelectorAll(".work-card");
+
+const portfolioVideos =
+    document.querySelectorAll(".work-card video");
+
+
+portfolioCards.forEach((card) => {
+
+    const video =
+        card.querySelector("video");
+
+
+    if (!video) return;
+
+
+    /* =========================
+       PLAY / PAUSE BUTTON
+    ========================= */
+
+    const toggle =
+        document.createElement("button");
+
+
+    toggle.type = "button";
+
+    toggle.className =
+        "video-toggle";
+
+
+    toggle.setAttribute(
+        "aria-label",
+        "Reproducir video"
+    );
+
+
+    toggle.setAttribute(
+        "aria-pressed",
+        "false"
+    );
+
+
+    toggle.innerHTML =
+        '<span aria-hidden="true">▶</span>';
+
+
+    card.appendChild(toggle);
+
+
+    /* =========================
+       UPDATE BUTTON
+    ========================= */
+
+    const updateButton = () => {
+
+        const playing =
+            !video.paused &&
+            !video.ended;
+
+
+        toggle.innerHTML =
+            playing
+                ? '<span aria-hidden="true">❚❚</span>'
+                : '<span aria-hidden="true">▶</span>';
+
+
+        toggle.setAttribute(
+            "aria-label",
+            playing
+                ? "Pausar video"
+                : "Reproducir video"
+        );
+
+
+        toggle.setAttribute(
+            "aria-pressed",
+            String(playing)
+        );
+
+
+        toggle.classList.toggle(
+            "is-playing",
+            playing
+        );
+
+    };
+
+
+    /* =========================
+       BUTTON CLICK
+    ========================= */
+
+    toggle.addEventListener(
+        "click",
+        (event) => {
+
+            event.preventDefault();
+
+            event.stopPropagation();
+
+
+            if (
+                video.paused ||
+                video.ended
+            ) {
+
+                video.play().catch(() => {});
+
+            } else {
+
+                video.pause();
+
+            }
+
+        }
+    );
+
+
+    /* =========================
+       VIDEO PLAY
+    ========================= */
+
+    video.addEventListener(
+        "play",
+        () => {
+
+            portfolioVideos.forEach(
+                (otherVideo) => {
+
+                    if (
+                        otherVideo !== video &&
+                        !otherVideo.paused
+                    ) {
+
+                        otherVideo.pause();
+
+                    }
+
+                }
+            );
+
+
+            updateButton();
+
+        }
+    );
+
+
+    /* =========================
+       VIDEO PAUSE
+    ========================= */
+
+    video.addEventListener(
+        "pause",
+        updateButton
+    );
+
+
+    /* =========================
+       VIDEO END
+    ========================= */
+
+    video.addEventListener(
+        "ended",
+        () => {
+
+            video.currentTime = 0;
+
+            updateButton();
+
+        }
+    );
+
+
+    /* =========================
+       INITIAL STATE
+    ========================= */
+
+    video.addEventListener(
+        "loadedmetadata",
+        updateButton
+    );
+
+
+    updateButton();
+
+});
