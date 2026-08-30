@@ -1,337 +1,278 @@
 /* ==========================================================
-   BY KAVERO — JAVASCRIPT
+BY KAVERO — JAVASCRIPT
+========================================================== */
+
+/* ==========================================================
+ACTIVAR ANIMACIONES SOLO SI JAVASCRIPT CARGÓ
 ========================================================== */
 
 document.documentElement.classList.add("js-ready");
 
-
 /* ==========================================================
-   NAVBAR
+NAVBAR
 ========================================================== */
 
 const navbar = document.getElementById("navbar");
 
 if (navbar) {
 
-    const updateNavbar = () => {
+const updateNavbar = () => {
 
-        if (window.scrollY > 30) {
-            navbar.classList.add("scrolled");
-        } else {
-            navbar.classList.remove("scrolled");
-        }
+    if (window.scrollY > 30) {
+        navbar.classList.add("scrolled");
+    } else {
+        navbar.classList.remove("scrolled");
+    }
 
-    };
+};
 
-    updateNavbar();
+window.addEventListener("scroll", updateNavbar, {
+    passive: true
+});
 
-    window.addEventListener(
-        "scroll",
-        updateNavbar,
-        { passive: true }
-    );
+updateNavbar();
 
 }
 
-
 /* ==========================================================
-   SCROLL REVEAL
+SCROLL REVEAL
 ========================================================== */
 
 const revealElements =
-    document.querySelectorAll(".reveal");
-
+document.querySelectorAll(".reveal");
 
 if ("IntersectionObserver" in window) {
 
-    const revealObserver =
-        new IntersectionObserver(
+const revealObserver =
+    new IntersectionObserver(
 
-            (entries) => {
+        (entries) => {
 
-                entries.forEach((entry) => {
+            entries.forEach((entry) => {
 
-                    if (entry.isIntersecting) {
+                if (entry.isIntersecting) {
 
-                        entry.target.classList.add("visible");
+                    entry.target.classList.add("visible");
 
-                        revealObserver.unobserve(
-                            entry.target
-                        );
-
-                    }
-
-                });
-
-            },
-
-            {
-                threshold: 0.12
-            }
-
-        );
-
-
-    revealElements.forEach((element) => {
-
-        revealObserver.observe(element);
-
-    });
-
-} else {
-
-    revealElements.forEach((element) => {
-
-        element.classList.add("visible");
-
-    });
-
-}
-
-
-/* ==========================================================
-   PORTFOLIO VIDEOS
-========================================================== */
-
-const videos =
-    document.querySelectorAll(".portfolio-video");
-
-
-videos.forEach((video) => {
-
-    const card =
-        video.closest(".work-card");
-
-    const playButton =
-        card?.querySelector(".play-button");
-
-    const muteButton =
-        card?.querySelector(".mute-button");
-
-
-    /* -----------------------------------------
-       REPRODUCIR / PAUSAR
-    ----------------------------------------- */
-
-    if (playButton) {
-
-        playButton.addEventListener(
-            "click",
-            async () => {
-
-                /*
-                   Antes de reproducir este video,
-                   detenemos TODOS los demás.
-                */
-
-                videos.forEach((otherVideo) => {
-
-                    if (otherVideo !== video) {
-
-                        otherVideo.pause();
-
-                        const otherCard =
-                            otherVideo.closest(".work-card");
-
-                        const otherButton =
-                            otherCard?.querySelector(
-                                ".play-button"
-                            );
-
-                        if (otherButton) {
-                            otherButton.textContent = "▶";
-                        }
-
-                    }
-
-                });
-
-
-                if (video.paused) {
-
-                    try {
-
-                        await video.play();
-
-                        playButton.textContent = "❚❚";
-
-                    } catch (error) {
-
-                        console.log(
-                            "No se pudo reproducir el video.",
-                            error
-                        );
-
-                    }
-
-                } else {
-
-                    video.pause();
-
-                    playButton.textContent = "▶";
-
-                }
-
-            }
-        );
-
-    }
-
-
-    /* -----------------------------------------
-       ACTUALIZAR BOTÓN AL PAUSAR
-    ----------------------------------------- */
-
-    video.addEventListener(
-        "pause",
-        () => {
-
-            if (playButton) {
-                playButton.textContent = "▶";
-            }
-
-        }
-    );
-
-
-    /* -----------------------------------------
-       ACTUALIZAR BOTÓN AL REPRODUCIR
-    ----------------------------------------- */
-
-    video.addEventListener(
-        "play",
-        () => {
-
-            if (playButton) {
-                playButton.textContent = "❚❚";
-            }
-
-        }
-    );
-
-
-    /* -----------------------------------------
-       CUANDO TERMINA
-    ----------------------------------------- */
-
-    video.addEventListener(
-        "ended",
-        () => {
-
-            video.currentTime = 0;
-
-            if (playButton) {
-                playButton.textContent = "▶";
-            }
-
-        }
-    );
-
-
-    /* -----------------------------------------
-       SONIDO
-    ----------------------------------------- */
-
-    if (muteButton) {
-
-        muteButton.addEventListener(
-            "click",
-            () => {
-
-                video.muted = !video.muted;
-
-                muteButton.textContent =
-                    video.muted
-                        ? "🔇"
-                        : "🔊";
-
-            }
-        );
-
-    }
-
-});
-
-
-/* ==========================================================
-   MENÚ MÓVIL
-========================================================== */
-
-const menuToggle =
-    document.querySelector(".menu-toggle");
-
-const navLinks =
-    document.querySelector(".nav-links");
-
-
-if (menuToggle && navLinks) {
-
-    menuToggle.addEventListener(
-        "click",
-        () => {
-
-            const isOpen =
-                navLinks.classList.toggle("active");
-
-            menuToggle.setAttribute(
-                "aria-expanded",
-                isOpen ? "true" : "false"
-            );
-
-            menuToggle.textContent =
-                isOpen ? "×" : "☰";
-
-        }
-    );
-
-
-    navLinks
-        .querySelectorAll("a")
-        .forEach((link) => {
-
-            link.addEventListener(
-                "click",
-                () => {
-
-                    navLinks.classList.remove(
-                        "active"
+                    revealObserver.unobserve(
+                        entry.target
                     );
 
-                    menuToggle.setAttribute(
-                        "aria-expanded",
-                        "false"
-                    );
-
-                    menuToggle.textContent = "☰";
-
-                }
-            );
-
-        });
-
-}
-
-
-/* ==========================================================
-   SEGURIDAD EXTRA:
-   SI EL VIDEO CAMBIA, SOLO UNO PUEDE ESTAR REPRODUCIÉNDOSE
-========================================================== */
-
-videos.forEach((video) => {
-
-    video.addEventListener(
-        "play",
-        () => {
-
-            videos.forEach((otherVideo) => {
-
-                if (otherVideo !== video) {
-                    otherVideo.pause();
                 }
 
             });
 
+        },
+
+        {
+            threshold: 0.12
         }
+
+    );
+
+
+revealElements.forEach((element) => {
+
+    revealObserver.observe(element);
+
+});
+
+} else {
+
+revealElements.forEach((element) => {
+
+    element.classList.add("visible");
+
+});
+
+}
+
+/* ==========================================================
+PORTFOLIO VIDEOS
+SOLO UN VIDEO PUEDE REPRODUCIRSE A LA VEZ
+========================================================== */
+
+const videos =
+document.querySelectorAll(".work-card video");
+
+videos.forEach((video) => {
+
+/* ----------------------------------------------
+   Cuando empieza un video:
+   detener automáticamente todos los demás.
+---------------------------------------------- */
+
+video.addEventListener("play", () => {
+
+    videos.forEach((otherVideo) => {
+
+        if (otherVideo !== video) {
+
+            otherVideo.pause();
+
+        }
+
+    });
+
+});
+
+
+/* ----------------------------------------------
+   No autoplay.
+   El video solamente comienza cuando
+   la persona utiliza los controles.
+---------------------------------------------- */
+
+
+/* ----------------------------------------------
+   Generar automáticamente un poster
+   usando el primer fotograma del video.
+---------------------------------------------- */
+
+video.addEventListener("loadeddata", () => {
+
+    createVideoPoster(video);
+
+}, {
+    once: true
+});
+
+});
+
+/* ==========================================================
+CREAR POSTER AUTOMÁTICO
+========================================================== */
+
+function createVideoPoster(video) {
+
+/*
+   Si el video ya tiene un poster definido,
+   no hacemos nada.
+*/
+
+if (video.getAttribute("poster")) {
+    return;
+}
+
+
+/*
+   Intentamos obtener el primer fotograma.
+*/
+
+try {
+
+    const canvas =
+        document.createElement("canvas");
+
+    const width = video.videoWidth;
+    const height = video.videoHeight;
+
+
+    if (!width || !height) {
+        return;
+    }
+
+
+    canvas.width = width;
+    canvas.height = height;
+
+
+    const context =
+        canvas.getContext("2d");
+
+
+    if (!context) {
+        return;
+    }
+
+
+    context.drawImage(
+        video,
+        0,
+        0,
+        width,
+        height
+    );
+
+
+    const poster =
+        canvas.toDataURL("image/jpeg", 0.82);
+
+
+    video.setAttribute(
+        "poster",
+        poster
+    );
+
+
+} catch (error) {
+
+    /*
+       Si el navegador no permite generar
+       el poster, el video sigue funcionando
+       normalmente.
+    */
+
+    console.log(
+        "No se pudo generar el poster automáticamente."
+    );
+
+}
+
+}
+
+/* ==========================================================
+MENÚ MÓVIL
+========================================================== */
+
+const menuToggle =
+document.querySelector(".menu-toggle");
+
+const navLinks =
+document.querySelector(".nav-links");
+
+if (menuToggle && navLinks) {
+
+menuToggle.addEventListener("click", () => {
+
+    const isOpen =
+        navLinks.classList.toggle("active");
+
+    menuToggle.setAttribute(
+        "aria-expanded",
+        isOpen ? "true" : "false"
+    );
+
+    menuToggle.setAttribute(
+        "aria-label",
+        isOpen
+            ? "Cerrar menú"
+            : "Abrir menú"
     );
 
 });
+
+
+navLinks
+    .querySelectorAll("a")
+    .forEach((link) => {
+
+        link.addEventListener("click", () => {
+
+            navLinks.classList.remove("active");
+
+            menuToggle.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+            menuToggle.setAttribute(
+                "aria-label",
+                "Abrir menú"
+            );
+
+        });
+
+    });
+
+}
