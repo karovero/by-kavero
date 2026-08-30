@@ -34,7 +34,6 @@ if ("IntersectionObserver" in window) {
 
     const revealObserver =
         new IntersectionObserver(
-
             (entries) => {
 
                 entries.forEach((entry) => {
@@ -52,11 +51,9 @@ if ("IntersectionObserver" in window) {
                 });
 
             },
-
             {
                 threshold: 0.12
             }
-
         );
 
     revealElements.forEach((element) => {
@@ -139,29 +136,29 @@ if (menuToggle && navLinks) {
 
 /* =========================
    PORTFOLIO VIDEOS
-========================== */
+========================= */
+
+const portfolioCards =
+    document.querySelectorAll(".work-card");
 
 const portfolioVideos =
     document.querySelectorAll(".work-card video");
 
 
-portfolioVideos.forEach((video) => {
+portfolioCards.forEach((card) => {
 
-    const card =
-        video.closest(".work-card");
+    const video =
+        card.querySelector("video");
 
-    if (!card) return;
-
-
-    /* Usa el botón que YA existe en el HTML */
     const toggle =
         card.querySelector(".video-toggle");
 
-    if (!toggle) return;
+
+    if (!video || !toggle) return;
 
 
     /* =========================
-       ACTUALIZAR BOTÓN
+       UPDATE BUTTON
     ========================= */
 
     const updateButton = () => {
@@ -170,59 +167,37 @@ portfolioVideos.forEach((video) => {
             !video.paused &&
             !video.ended;
 
-        if (playing) {
 
-            toggle.innerHTML =
-                '<span aria-hidden="true">❚❚</span>';
+        toggle.innerHTML =
+            playing
+                ? '<span aria-hidden="true">❚❚</span>'
+                : '<span aria-hidden="true">▶</span>';
 
-            toggle.setAttribute(
-                "aria-label",
-                "Pausar video"
-            );
 
-            toggle.setAttribute(
-                "aria-pressed",
-                "true"
-            );
+        toggle.setAttribute(
+            "aria-label",
+            playing
+                ? "Pausar video"
+                : "Reproducir video"
+        );
 
-            toggle.classList.add(
-                "is-playing"
-            );
 
-            toggle.classList.add(
-                "hidden"
-            );
+        toggle.setAttribute(
+            "aria-pressed",
+            String(playing)
+        );
 
-        } else {
 
-            toggle.innerHTML =
-                '<span aria-hidden="true">▶</span>';
-
-            toggle.setAttribute(
-                "aria-label",
-                "Reproducir video"
-            );
-
-            toggle.setAttribute(
-                "aria-pressed",
-                "false"
-            );
-
-            toggle.classList.remove(
-                "is-playing"
-            );
-
-            toggle.classList.remove(
-                "hidden"
-            );
-
-        }
+        toggle.classList.toggle(
+            "is-playing",
+            playing
+        );
 
     };
 
 
     /* =========================
-       BOTÓN PLAY / PAUSE
+       BUTTON CLICK
     ========================= */
 
     toggle.addEventListener(
@@ -232,24 +207,10 @@ portfolioVideos.forEach((video) => {
             event.preventDefault();
             event.stopPropagation();
 
-            if (video.paused || video.ended) {
-
-                /* Pausa los demás videos */
-
-                portfolioVideos.forEach(
-                    (otherVideo) => {
-
-                        if (
-                            otherVideo !== video &&
-                            !otherVideo.paused
-                        ) {
-
-                            otherVideo.pause();
-
-                        }
-
-                    }
-                );
+            if (
+                video.paused ||
+                video.ended
+            ) {
 
                 video.play().catch(() => {});
 
@@ -264,7 +225,7 @@ portfolioVideos.forEach((video) => {
 
 
     /* =========================
-       CLICK DIRECTO SOBRE VIDEO
+       VIDEO CLICK
     ========================= */
 
     video.addEventListener(
@@ -273,21 +234,6 @@ portfolioVideos.forEach((video) => {
 
             if (video.paused || video.ended) {
 
-                portfolioVideos.forEach(
-                    (otherVideo) => {
-
-                        if (
-                            otherVideo !== video &&
-                            !otherVideo.paused
-                        ) {
-
-                            otherVideo.pause();
-
-                        }
-
-                    }
-                );
-
                 video.play().catch(() => {});
 
             } else {
@@ -301,7 +247,7 @@ portfolioVideos.forEach((video) => {
 
 
     /* =========================
-       PLAY
+       VIDEO PLAY
     ========================= */
 
     video.addEventListener(
@@ -330,7 +276,7 @@ portfolioVideos.forEach((video) => {
 
 
     /* =========================
-       PAUSE
+       VIDEO PAUSE
     ========================= */
 
     video.addEventListener(
@@ -340,7 +286,7 @@ portfolioVideos.forEach((video) => {
 
 
     /* =========================
-       FIN DEL VIDEO
+       VIDEO END
     ========================= */
 
     video.addEventListener(
@@ -356,8 +302,13 @@ portfolioVideos.forEach((video) => {
 
 
     /* =========================
-       ESTADO INICIAL
+       INITIAL STATE
     ========================= */
+
+    video.addEventListener(
+        "loadedmetadata",
+        updateButton
+    );
 
     updateButton();
 
