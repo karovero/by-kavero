@@ -1,24 +1,36 @@
+/* ==========================================================
+   BY KAVERO — STYLE
+========================================================== */
+
 :root {
     --cream: #FAF6F1;
     --cream-dark: #F1E9E1;
+
     --rose: #D8A6A3;
     --rose-light: #EACCC8;
+
     --butter: #F2DFA0;
+
     --brown: #403533;
     --muted: #756B68;
+
     --white: #FFFFFF;
+
     --line: rgba(64, 53, 51, 0.12);
 
     --title-font: "Larken", "Cormorant Garamond", Georgia, serif;
     --body-font: "DM Sans", sans-serif;
 
     --container: 1180px;
+
     --radius-large: 40px;
     --radius-medium: 24px;
 }
 
 
-/* RESET */
+/* ==========================================================
+   RESET
+========================================================== */
 
 * {
     margin: 0;
@@ -41,7 +53,7 @@ body {
 img,
 video {
     display: block;
-    max-width: 100%;
+    width: 100%;
 }
 
 a {
@@ -54,7 +66,9 @@ button {
 }
 
 
-/* GENERAL */
+/* ==========================================================
+   GENERAL
+========================================================== */
 
 .container {
     width: min(var(--container), calc(100% - 48px));
@@ -84,7 +98,9 @@ section {
 }
 
 
-/* NAVBAR */
+/* ==========================================================
+   NAVBAR
+========================================================== */
 
 .navbar {
     position: fixed;
@@ -154,7 +170,9 @@ section {
 }
 
 
-/* HERO */
+/* ==========================================================
+   HERO
+========================================================== */
 
 .hero {
     min-height: 100svh;
@@ -206,7 +224,9 @@ section {
     border-radius: 999px;
     font-size: 0.82rem;
     font-weight: 700;
-    transition: transform 0.3s ease, background 0.3s ease;
+    transition:
+        transform 0.3s ease,
+        background 0.3s ease;
 }
 
 .button:hover {
@@ -251,7 +271,9 @@ section {
 }
 
 
-/* MARQUEE */
+/* ==========================================================
+   MARQUEE
+========================================================== */
 
 .marquee {
     overflow: hidden;
@@ -287,7 +309,9 @@ section {
 }
 
 
-/* ABOUT */
+/* ==========================================================
+   ABOUT
+========================================================== */
 
 .about-grid {
     display: grid;
@@ -323,7 +347,9 @@ section {
 }
 
 
-/* SERVICES */
+/* ==========================================================
+   SERVICES
+========================================================== */
 
 .services-section {
     background: var(--cream-dark);
@@ -345,7 +371,9 @@ section {
     border-radius: var(--radius-medium);
     background: var(--white);
     border: 1px solid var(--line);
-    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
 }
 
 .service-card:hover {
@@ -373,7 +401,9 @@ section {
 }
 
 
-/* PORTFOLIO */
+/* ==========================================================
+   PORTFOLIO
+========================================================== */
 
 .portfolio-section {
     background: var(--cream);
@@ -392,67 +422,59 @@ section {
 .portfolio-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 18px;
+    gap: 28px 20px;
     align-items: start;
 }
 
 .work-card {
-    position: relative;
     width: 100%;
-    max-width: 330px;
-    aspect-ratio: 9 / 14;
-    overflow: hidden;
+    max-width: 290px;
     margin-inline: auto;
-    border-radius: var(--radius-medium);
-    background: var(--brown);
 }
 
-.work-card video {
+.video-box {
+    width: 100%;
+    aspect-ratio: 9 / 14;
+    overflow: hidden;
+    border-radius: var(--radius-medium);
+    background: var(--brown);
+    box-shadow: 0 15px 40px rgba(64,53,51,0.08);
+}
+
+.video-box video {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    background: var(--brown);
+    display: block;
 }
 
 
-/*
-    La información queda encima del video,
-    pero NO bloquea los controles nativos.
-*/
+/* ==========================================================
+   WORK INFO
+========================================================== */
 
 .work-info {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding: 22px;
-    padding-bottom: 62px;
-    color: var(--white);
-    background: linear-gradient(
-        to top,
-        rgba(0,0,0,0.72),
-        rgba(0,0,0,0.35),
-        transparent
-    );
-    pointer-events: none;
+    padding: 15px 5px 0;
 }
 
 .work-info span {
     font-size: 0.65rem;
     text-transform: uppercase;
     letter-spacing: 0.12em;
-    opacity: 0.8;
+    color: var(--muted);
 }
 
 .work-info h3 {
-    margin-top: 5px;
+    margin-top: 4px;
     font-family: var(--title-font);
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     font-weight: 400;
 }
 
 
-/* PRICING */
+/* ==========================================================
+   PRICING
+========================================================== */
 
 .pricing-grid {
     display: grid;
@@ -512,7 +534,9 @@ section {
 }
 
 
-/* PROCESS */
+/* ==========================================================
+   PROCESS
+========================================================== */
 
 .process-section {
     background: var(--butter);
@@ -549,7 +573,9 @@ section {
 }
 
 
-/* CTA */
+/* ==========================================================
+   CTA
+========================================================== */
 
 .cta-section {
     padding: 150px 0;
@@ -616,7 +642,9 @@ section {
 }
 
 
-/* FOOTER */
+/* ==========================================================
+   FOOTER
+========================================================== */
 
 footer {
     padding: 55px 0 30px;
@@ -655,7 +683,10 @@ footer {
     text-align: center;
     font-size: 0.75rem;
     font-weight: 700;
-    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    transition:
+        background 0.3s ease,
+        color 0.3s ease,
+        transform 0.3s ease;
 }
 
 .social-links a:hover {
@@ -676,33 +707,38 @@ footer {
 }
 
 
-/* REVEAL */
+/* ==========================================================
+   SCROLL REVEAL
+========================================================== */
+
+/*
+   IMPORTANTE:
+   El contenido permanece visible aunque JavaScript
+   no cargue. Así nunca desaparece toda la página.
+*/
 
 .reveal {
-    opacity: 0;
-    transform: translateY(25px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    opacity: 1;
+    transform: none;
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s ease;
 }
 
-.reveal.visible {
+.reveal.ready {
+    opacity: 0;
+    transform: translateY(25px);
+}
+
+.reveal.ready.visible {
     opacity: 1;
     transform: translateY(0);
 }
 
 
-/* MENU */
-
-.menu-toggle {
-    display: none;
-    border: none;
-    background: transparent;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: var(--brown);
-}
-
-
-/* TABLET */
+/* ==========================================================
+   TABLET
+========================================================== */
 
 @media (max-width: 900px) {
 
@@ -733,10 +769,25 @@ footer {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    .work-card {
+        max-width: 300px;
+    }
+
 }
 
 
-/* MOBILE MENU */
+/* ==========================================================
+   MOBILE MENU
+========================================================== */
+
+.menu-toggle {
+    display: none;
+    border: none;
+    background: transparent;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--brown);
+}
 
 @media (max-width: 768px) {
 
@@ -750,13 +801,20 @@ footer {
         top: 100%;
         left: 0;
         right: 0;
+
         display: none;
+
         flex-direction: column;
         align-items: center;
+
         padding: 25px;
+
         background: var(--cream);
+
         border-top: 1px solid var(--line);
-        box-shadow: 0 15px 35px rgba(64,53,51,0.08);
+
+        box-shadow:
+            0 15px 35px rgba(64,53,51,0.08);
     }
 
     .nav-links.active {
@@ -766,12 +824,17 @@ footer {
 }
 
 
-/* MOBILE */
+/* ==========================================================
+   MOBILE
+========================================================== */
 
 @media (max-width: 600px) {
 
     .container {
-        width: min(var(--container), calc(100% - 30px));
+        width: min(
+            var(--container),
+            calc(100% - 30px)
+        );
     }
 
     section {
@@ -783,7 +846,11 @@ footer {
     }
 
     .hero h1 {
-        font-size: clamp(3.5rem, 18vw, 5rem);
+        font-size: clamp(
+            3.5rem,
+            18vw,
+            5rem
+        );
     }
 
     .hero-description {
@@ -799,7 +866,11 @@ footer {
     }
 
     .section-title {
-        font-size: clamp(2.8rem, 14vw, 4.3rem);
+        font-size: clamp(
+            2.8rem,
+            14vw,
+            4.3rem
+        );
     }
 
     .services-grid,
@@ -807,6 +878,11 @@ footer {
     .portfolio-grid,
     .process-grid {
         grid-template-columns: 1fr;
+    }
+
+    .work-card {
+        width: min(100%, 310px);
+        max-width: 310px;
     }
 
     .price-card.featured {
@@ -823,7 +899,11 @@ footer {
     }
 
     .cta-content h2 {
-        font-size: clamp(3.5rem, 17vw, 5rem);
+        font-size: clamp(
+            3.5rem,
+            17vw,
+            5rem
+        );
     }
 
     .footer-top,
@@ -839,19 +919,12 @@ footer {
         flex: 1;
     }
 
-    /*
-       En móvil dejamos espacio para que los controles
-       nativos del video tengan buena visibilidad.
-    */
-
-    .work-info {
-        padding-bottom: 58px;
-    }
-
 }
 
 
-/* REDUCED MOTION */
+/* ==========================================================
+   REDUCED MOTION
+========================================================== */
 
 @media (prefers-reduced-motion: reduce) {
 
