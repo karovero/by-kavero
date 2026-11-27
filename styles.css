@@ -439,7 +439,7 @@ section {
 
 .portfolio-categories {
     display: grid;
-    gap: 65px;
+    gap: 35px;
 }
 
 .portfolio-category {
@@ -853,7 +853,7 @@ footer {
     }
 
     .portfolio-categories {
-        gap: 48px;
+        gap: 28px;
     }
 
     .category-title {
